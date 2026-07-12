@@ -1,0 +1,367 @@
+<% layout("/layouts/boilerplate") %>
+
+    <body>
+
+        <style>
+            @import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@500&display=swap');
+
+            :root {
+                --ink: #1c2b3a;
+                --ink-soft: #4b5a68;
+                --paper: #faf8f3;
+                --line: rgba(28, 43, 58, 0.12);
+                --gold: #b8863b;
+                --gold-soft: #f3e6cd;
+            }
+
+            body {
+                font-family: 'Inter', sans-serif;
+                color: var(--ink);
+            }
+
+            #space {
+                display: flex;
+                justify-content: space-between;
+                align-items: flex-start;
+                padding-top: 0.5rem;
+            }
+
+            #filters {
+                width: 900px;
+                display: flex;
+                flex-shrink: 0;
+                overflow-x: scroll;
+                gap: 0.25rem;
+            }
+
+            #filters::-webkit-scrollbar {
+                display: none;
+            }
+
+            .filter {
+                text-align: center;
+                margin-top: 1.5rem;
+                margin-bottom: 1rem;
+                margin-right: 1.75rem;
+                padding-bottom: 0.6rem;
+                opacity: 0.65;
+                cursor: pointer;
+                border-bottom: 2px dashed transparent;
+                transition: opacity 0.15s ease, border-color 0.15s ease;
+                flex-shrink: 0;
+            }
+
+            .filter i {
+                color: var(--ink);
+            }
+
+            .filter:hover,
+            .filter.active {
+                opacity: 1;
+                border-bottom-color: var(--gold);
+            }
+
+            .filter p {
+                margin: 0.4rem 0 0;
+                font-size: 0.78rem;
+                letter-spacing: 0.02em;
+                text-align: center;
+                color: var(--ink-soft);
+            }
+
+            .arrow {
+                text-align: center;
+                margin-top: 1.75rem;
+                margin-bottom: 1rem;
+                margin-left: 1.5rem;
+            }
+
+            .arrow i {
+                width: 2.25rem;
+                height: 2.25rem;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                border-color: var(--line) !important;
+                color: var(--ink);
+                transition: border-color 0.15s ease, background 0.15s ease;
+            }
+
+            .arrow i:hover {
+                border-color: var(--gold) !important;
+                background: var(--gold-soft);
+                cursor: pointer;
+            }
+
+            .tax-box {
+                border: 1px solid var(--line);
+                border-radius: 0.9rem;
+                height: 3.4rem;
+                padding: 0.5rem 1.1rem;
+                margin-top: 1.5rem;
+                display: flex;
+                align-items: center;
+                background: #fff;
+            }
+
+            #switch-toggle {
+                width: 320px;
+                gap: 0.75rem;
+            }
+
+            #slider {
+                color: var(--gold);
+            }
+
+            .tax {
+                padding-right: 0;
+            }
+
+            .form-check-label {
+                font-size: 0.85rem;
+                color: var(--ink-soft);
+                padding-left: 0.5rem;
+            }
+
+            .form-check-input:checked {
+                background-color: var(--gold);
+                border-color: var(--gold);
+            }
+
+            .tax-info {
+                visibility: hidden;
+                font-style: normal;
+                color: var(--ink-soft);
+            }
+
+            .row {
+                row-gap: 2.25rem;
+                margin-top: 1rem;
+            }
+
+            .card {
+                border: none;
+                background: transparent;
+            }
+
+            .card a {
+                display: block;
+            }
+
+            .card-img-top {
+                height: 15rem;
+                object-fit: cover;
+                border-radius: 0.9rem;
+                transition: transform 0.25s ease;
+            }
+
+            .card a:hover .card-img-top {
+                transform: scale(1.015);
+            }
+
+            .card-body {
+                padding: 0.85rem 0.1rem 0;
+            }
+
+            .card-title {
+                font-family: 'Fraunces', serif;
+                font-weight: 600;
+                font-size: 1.05rem;
+                letter-spacing: -0.01em;
+                margin-bottom: 0.35rem;
+            }
+
+            .card-title b {
+                font-weight: 600;
+            }
+
+            .card-text {
+                font-size: 0.88rem;
+                color: var(--ink-soft);
+                line-height: 1.5;
+            }
+
+            .price-line {
+                display: inline-flex;
+                align-items: baseline;
+                gap: 0.35rem;
+                font-family: 'IBM Plex Mono', monospace;
+                font-size: 0.9rem;
+                color: var(--ink);
+                margin-top: 0.4rem;
+            }
+
+            .btn.btn-primary {
+                background: transparent;
+                border: 1px solid var(--ink);
+                color: var(--ink);
+                font-size: 0.8rem;
+                font-weight: 500;
+                padding: 0.4rem 0.9rem;
+                border-radius: 999px;
+                margin-top: 0.6rem;
+                transition: background 0.15s ease, color 0.15s ease;
+            }
+
+            .card a:hover .btn.btn-primary {
+                background: var(--ink);
+                color: #fff;
+            }
+        </style>
+
+        <div id="space">
+            <div class="d-flex">
+                <div id="filters">
+                    <div class="filter">
+                        <div>
+                            <i class="fa-solid fa-fire  fs-5"></i>
+                        </div>
+                        <p>Trending</p>
+                    </div>
+                    <div class="filter">
+                        <div>
+                            <i class="fa-solid fa-bed  fs-5"></i>
+                        </div>
+                        <p>Rooms</p>
+                    </div>
+                    <div class="filter">
+                        <div>
+                            <i class="fa-solid fa-mountain-city fs-5"></i>
+                        </div>
+                        <p>Rooms</p>
+                    </div>
+                    <div class="filter">
+                        <div>
+                            <i class="fa-solid fa-mountain fs-5"></i>
+                        </div>
+                        <p>Mountains</p>
+                    </div>
+                    <div class="filter">
+                        <div>
+                            <i class="fa-brands fa-fort-awesome fs-5"></i>
+                        </div>
+                        <p>Castles</p>
+                    </div>
+                    <div class="filter">
+                        <div>
+                            <i class="fa-solid fa-person-swimming fs-5"></i>
+                        </div>
+                        <p>Amazing Pools</p>
+                    </div>
+                    <div class="filter">
+                        <div>
+                            <i class="fa-solid fa-umbrella-beach fs-5"></i>
+                        </div>
+                        <p>Beach</p>
+                    </div>
+                    <div class="filter">
+                        <div>
+                            <i class="fa-solid fa-house-chimney fs-5"></i>
+                        </div>
+                        <p>Cabins</p>
+                    </div>
+                    <div class="filter">
+                        <div>
+                            <i class="fa-solid fa-campground fs-5"></i>
+                        </div>
+                        <p>Camping</p>
+                    </div>
+                    <div class="filter">
+                        <div>
+                            <i class="fa-solid fa-cow fs-5"></i>
+                        </div>
+                        <p>Farms</p>
+                    </div>
+                    <div class="filter">
+                        <div>
+                            <i class="fa-regular fa-snowflake fs-5"></i>
+                        </div>
+                        <p>Arctic</p>
+                    </div>
+                    <div class="filter">
+                        <div>
+                            <i class="fa-solid fa-sailboat fs-5"></i>
+                        </div>
+                        <p>Boat</p>
+                    </div>
+                    <div class="filter">
+                        <div>
+                            <i class="fa-solid fa-igloo fs-5"></i>
+                        </div>
+                        <p>Igloo</p>
+                    </div>
+                </div>
+                <div>
+                    <div class="arrow">
+                        <i class="fa-solid fa-angle-right fs-4 border border-2 rounded-circle fs-5"></i>
+                    </div>
+                </div>
+            </div>
+            <div id="switch-toggle" class="d-flex justify-content-between">
+                <div class="tax-box">
+                    <div class="d-flex align-items-center">
+                        <i id="slider" class="fa-solid fa-sliders fs-5"></i>&nbsp;
+                        <p class="mb-0">Filters</p>
+                    </div>
+                </div>
+                <div class="tax-box">
+                    <div class="form-check-reverse form-switch tax d-flex align-items-center">
+                        <input class="form-check-input fs-5" type="checkbox" role="switch" id="switchCheckDefault">
+                        <label class="form-check-label" for="switchCheckDefault">Total after Taxes</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row row-cols-lg-3 row-cols-md-2 row-cols-sm-1 row-cols-1">
+            <% for(let listing of alllistings) { %>
+                <div class="card col">
+                    <a href="/listings/<%= listing._id %>" class="stretched-link text-decoration-none text-dark">
+                        <img src="<%= listing.image.url %>" class="card-img-top" alt="listing_image" />
+                        <div class="card-img-overlay" id="bsdk"></div>
+                        <div class="card-body">
+
+                            <h5 class="card-title">
+                                <b>
+                                    <%= listing.title %>
+                                </b>
+                            </h5>
+                            <p class="card-text">
+                                <%= listing.description %>
+                            </p>
+                            <div class="price-line">
+                                &#8377;<%= listing.price.toLocaleString("en-IN") %> / night
+                                    <i class="tax-info">+18% GST</i>
+                            </div>
+                            <div>
+                                <span class="btn btn-primary">View details</span>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <% } %>
+        </div>
+    </body>
+
+    <script>
+        let taxSwitch = document.getElementById("switchCheckDefault");
+        taxSwitch.addEventListener("click", () => {
+            let GST = document.querySelectorAll(".tax-info")
+
+            for (gst of GST) {
+                if (gst.style.visibility != "visible") {
+                    gst.style.visibility = "visible";
+                }
+                else {
+                    gst.style.visibility = "hidden";
+                }
+            }
+        });
+
+        document.querySelectorAll(".filter").forEach((el) => {
+            el.addEventListener("click", () => {
+                document.querySelectorAll(".filter").forEach((f) => f.classList.remove("active"));
+                el.classList.add("active");
+            });
+        });
+    </script>
