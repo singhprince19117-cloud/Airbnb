@@ -4,9 +4,7 @@ A comprehensive, full-stack web application designed to replicate the core mecha
 
 ## Live Demo & Repository
 
-• **Live Application:** [Insert Deployed URL Here]
-• **GitHub Repository:** [Insert GitHub Repository URL Here]
-
+• **Live Application:** https://airbnb-major-project-oqia.onrender.com/listings
 ---
 
 ## Detailed Feature Set
